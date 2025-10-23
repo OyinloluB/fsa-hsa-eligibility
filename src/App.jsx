@@ -1,5 +1,9 @@
-import "./App.css"
+import "./App.css";
 import { useState, useEffect, useCallback } from "react";
+import EligibilityForm from "./components/EligibilityForm.jsx";
+import ProductCard from "./components/ProductCard.jsx";
+import RecentChecks from "./components/RecentChecks.jsx";
+import ReimbursementModal from "./components/ReimbursementModal.jsx";
 
 const API_URL = "https://float-web-backend.onrender.com/check-hsa-eligibility";
 
@@ -143,14 +147,8 @@ function App() {
   };
 
   const productData = result?.[0];
-  const productInfo = productData?.product_info;
-  const priceInfo = productData?.price_info;
   const eligibility = productData?.hsa_eligibility;
-  
   const badge = eligibility ? getEligibilityBadge(eligibility.status) : null;
-  const isEligible = eligibility?.status === "eligible";
-  const isEligibleWithLMN = eligibility?.status === "eligible but requires letter of medical necessity (LMN)";
-  const isNotEligible = eligibility?.status === "ineligible";
 
   return (
     <div className="app-container">
@@ -160,179 +158,32 @@ function App() {
           Check if a product is eligible for FSA/HSA reimbursement
         </p>
 
-        <form onSubmit={handleSubmit} className="url-form">
-          <label className="form-label">
-            Product URL
-            <input
-              type="url"
-              placeholder="https://www.amazon.com/product-name/dp/..."
-              value={inputUrl}
-              onChange={(e) => setInputUrl(e.target.value)}
-            />
-          </label>
-          <button type="submit" disabled={loading} className="submit-button">
-            {loading ? "Checking..." : "Check"}
-          </button>
-        </form>
+        <EligibilityForm
+          inputUrl={inputUrl}
+          onInputChange={setInputUrl}
+          onSubmit={handleSubmit}
+          loading={loading}
+          error={error}
+        />
 
-        {error && <p className="error-message">{error}</p>}
+        <ProductCard
+          product={productData}
+          badge={badge}
+          onBuyClick={handleBuyClick}
+          onReimbursement={handleReimbursementClick}
+        />
 
-        {productData && (
-          <div className="product-card">
-            <div className="product-card-body">
-              {productInfo?.product_image_url && (
-                <img
-                  src={productInfo.product_image_url}
-                  alt=""
-                  className="product-image"
-                />
-              )}
-              <div className="product-details">
-                {badge && (
-                  <span
-                    className={`badge badge--large badge--${badge.variant}`}
-                  >
-                    {badge.text}
-                  </span>
-                )}
-
-                {isEligibleWithLMN && (
-                  <p className="lmn-message">
-                    A Letter of Medical Necessity from your doctor is required
-                    for reimbursement.
-                  </p>
-                )}
-
-                <h3 className="product-title">{productInfo.title}</h3>
-
-                {priceInfo?.price > 0 && (
-                  <p className="product-price">${priceInfo.price}</p>
-                )}
-
-                <p className="product-reason">{eligibility.reason}</p>
-
-                <div className="product-actions">
-                  {(isEligible || isEligibleWithLMN) && (
-                    <>
-                      <button
-                        onClick={() => handleBuyClick(productInfo.base_url)}
-                        className="action-button action-button--primary"
-                      >
-                        Buy with pre-tax dollars
-                      </button>
-                      <button
-                        onClick={handleReimbursementClick}
-                        className="action-button action-button--outline"
-                      >
-                        Get reimbursed with float
-                      </button>
-                    </>
-                  )}
-
-                  {isNotEligible && (
-                    <>
-                      <p className="not-eligible-note">
-                        Not typically covered. You can still buy normally.
-                      </p>
-                      <button
-                        onClick={() => handleBuyClick(productInfo.base_url)}
-                        className="action-button action-button--muted"
-                      >
-                        Buy normally
-                      </button>
-                      <button
-                        onClick={handleReimbursementClick}
-                        className="action-button action-button--light"
-                      >
-                        Get reimbursed with float
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {recentChecks.length > 0 && (
-          <div className="recent-checks">
-            <h3 className="recent-checks-title">Recent Checks</h3>
-            <div className="recent-checks-list">
-              {recentChecks.map((check, index) => {
-                const checkBadge = getEligibilityBadge(check.eligibilityStatus);
-
-                return (
-                  <div
-                    key={index}
-                    onClick={() => handleRecentClick(check)}
-                    className="recent-check"
-                  >
-                    {check.image && (
-                      <img
-                        src={check.image}
-                        alt=""
-                        className="recent-check-image"
-                      />
-                    )}
-                    <div className="recent-check-details">
-                      <p className="recent-check-title">{check.title}</p>
-                      <p className="recent-check-domain">
-                        {check.normalizedDomain}
-                      </p>
-                    </div>
-                    <span
-                      className={`badge badge--small badge--${checkBadge.variant}`}
-                    >
-                      {checkBadge.text}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        <RecentChecks
+          checks={recentChecks}
+          onSelect={handleRecentClick}
+          resolveBadge={getEligibilityBadge}
+        />
       </main>
 
-      {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="modal-title">Request Reimbursement</h2>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setShowModal(false);
-              }}
-            >
-              <div className="form-field">
-                <label className="form-label">Email</label>
-                <input type="email" className="form-input" required />
-              </div>
-              <div className="form-field">
-                <label className="form-label">Order ID</label>
-                <input type="text" className="form-input" required />
-              </div>
-              <div className="form-actions">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="modal-button modal-button--cancel"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="modal-button modal-button--submit"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ReimbursementModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   );
 }
