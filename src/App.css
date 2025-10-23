@@ -1,0 +1,311 @@
+.app-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.url-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.form-label input {
+  margin-top: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.form-input--error {
+  border-color: #ef4444;
+}
+
+.submit-button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.submit-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.error-message {
+  color: #ef4444;
+  margin-top: 12px;
+}
+
+.product-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.product-card-body {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.product-image {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.product-details {
+  flex: 1;
+}
+
+.badge {
+  display: inline-block;
+  color: white;
+  font-weight: 600;
+  border-radius: 16px;
+}
+
+.badge--large {
+  padding: 4px 12px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.badge--small {
+  padding: 2px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.badge--eligible {
+  background-color: #10b981;
+}
+
+.badge--eligible-lmn {
+  background-color: #f59e0b;
+}
+
+.badge--ineligible {
+  background-color: #ef4444;
+}
+
+.lmn-message {
+  font-size: 14px;
+  color: #92400e;
+  margin-bottom: 8px;
+}
+
+.product-title {
+  margin: 8px 0;
+  font-size: 18px;
+}
+
+.product-price {
+  color: #6b7280;
+  margin: 4px 0;
+}
+
+.product-reason {
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.product-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+}
+
+.action-button--primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.action-button--outline {
+  background-color: white;
+  color: #2563eb;
+  border: 2px solid #2563eb;
+}
+
+.action-button--muted {
+  background-color: #6b7280;
+  color: white;
+}
+
+.action-button--light {
+  background-color: white;
+  color: #6b7280;
+  border: 2px solid #d1d5db;
+  font-weight: 400;
+}
+
+.not-eligible-note {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.recent-checks {
+  margin-top: 32px;
+}
+
+.recent-checks-title {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.recent-checks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recent-check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.recent-check:hover {
+  background-color: #f9fafb;
+}
+
+.recent-check-image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.recent-check-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.recent-check-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-check-domain {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal-title {
+  margin-top: 0;
+}
+
+.form-field {
+  margin-bottom: 16px;
+}
+
+.form-field .form-label {
+  margin-bottom: 4px;
+}
+
+.form-field .form-input {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modal-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-button--cancel {
+  background-color: white;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.modal-button--submit {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  font-weight: 600;
+}
